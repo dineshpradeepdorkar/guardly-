@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="../static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Oxanium:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="auth-bg">
+
+<div class="auth-box">
+  <div class="auth-card">
+    <h2 class="brand"><i class="fa-solid fa-shield-halved"></i> Guardly</h2>
+    <h3 class="title">Join Guardly</h3>
+
+    <form id="regForm">
+
+      <div class="input-group">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" name="fullname" placeholder="Full Name" required>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-phone"></i>
+        <input type="text" name="phone" placeholder="Phone Number" required>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email Address" required>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" name="password" placeholder="Password" required>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" name="confirm" placeholder="Confirm Password" required>
+      </div>
+
+      <button type="submit" class="btn">Sign Up</button>
+    </form>
+
+    <p class="switch">Already have an account? <a href="login.html">Login</a></p>
+  </div>
+</div>
+
+<script>
+document.getElementById("regForm").onsubmit = async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData(e.target);
+
+  if (fd.get("password") !== fd.get("confirm")) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  const res = await fetch("http://127.0.0.1:8000/register", {
+    method: "POST",
+    body: fd
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    alert("Account created successfully!");
+    window.location.href = "login.html";
+  } else {
+    alert(data.message);
+  }
+};
+</script>
+</body>
+</html>

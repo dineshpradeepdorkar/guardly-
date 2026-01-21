@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+
+  <link rel="stylesheet" href="../static/style.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Oxanium:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="auth-bg">
+
+<div class="auth-box">
+  <div class="auth-card">
+    <h2 class="brand"><i class="fa-solid fa-shield-halved"></i> Guardly</h2>
+    <h3 class="title">Login to Guardly</h3>
+
+    <form id="loginForm">
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email Address" required>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" name="password" placeholder="Password" required>
+      </div>
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <a class="forgot" href="forgot.html">Forgot Password?</a>
+    <p class="switch">Don't have an account? <a href="register.html">Sign Up</a></p>
+  </div>
+</div>
+
+<script>
+document.getElementById("loginForm").onsubmit = async (e) => {
+  e.preventDefault();
+  
+  const fd = new FormData(e.target);
+
+  const res = await fetch("http://127.0.0.1:8000/login", {
+    method: "POST",
+    body: fd
+  });
+
+  const data = await res.json();
+
+  if (data.success) {
+    // login successful → take user to dashboard
+    window.location.href = "dashbord.html";
+  } else {
+    // invalid credentials or user not found
+    alert(data.message || "Invalid credentials");
+  }
+};
+</script>
+
+</body>
+</html>

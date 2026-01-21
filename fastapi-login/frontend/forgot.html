@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forgot Password</title>
+
+  <link rel="stylesheet" href="../static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Oxanium:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body class="auth-bg">
+
+<div class="auth-box">
+  <div class="auth-card">
+    <h2 class="brand"><i class="fa-solid fa-shield-halved"></i> Guardly</h2>
+    <h3 class="title">Reset Password</h3>
+
+    <form id="forgotForm">
+      <div class="input-group">
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email Address" required>
+      </div>
+      <button type="submit" class="btn">Send Reset Link</button>
+    </form>
+
+    <p class="switch"><a href="login.html">Back to Login</a></p>
+  </div>
+</div>
+
+<script>
+document.getElementById("forgotForm").onsubmit = async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData(e.target);
+
+  const res = await fetch("http://127.0.0.1:8000/forgot", {
+    method: "POST",
+    body: fd
+  });
+
+  if (!res.ok) {
+    const txt = await res.text();
+    alert("Server Error: " + txt);
+    return;
+  }
+
+  const data = await res.json();
+  alert("If your email is registered, a reset link has been sent.");
+  
+  // Only redirect on success
+  window.location.href = "login.html";
+};
+</script>
+
+
+</body>
+</html>
